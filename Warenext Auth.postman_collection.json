@@ -59,7 +59,7 @@
 			"response": []
 		},
 		{
-			"name": "{{authurl}}?password=test1234&email=merchant@test.com",
+			"name": "Negative Test for Merchant Auth",
 			"event": [
 				{
 					"listen": "test",
@@ -96,7 +96,7 @@
 			"response": []
 		},
 		{
-			"name": "https://api-dev.warenext.ng/v1/truckerJob",
+			"name": "Create Job",
 			"event": [
 				{
 					"listen": "test",
@@ -108,7 +108,8 @@
 							"\r",
 							"pm.test(\"jobId object recieved\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.roleId);\r",
+							"    pm.expect(jsonData.jobId).to.equal.toString;\r",
+							"    \r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -150,7 +151,7 @@
 			"response": []
 		},
 		{
-			"name": "https://api-dev.warenext.ng/v1/truckerJob",
+			"name": "Negative Test for Create Job",
 			"event": [
 				{
 					"listen": "test",
