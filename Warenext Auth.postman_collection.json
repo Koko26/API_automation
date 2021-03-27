@@ -1,0 +1,212 @@
+{
+	"info": {
+		"_postman_id": "0be277cb-9c9d-4dca-8653-e31a335be972",
+		"name": "Warenext Auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Merchant Auth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var warenext = JSON.parse(responseBody);\r",
+							"\r",
+							"var accessToken = warenext.accessToken\r",
+							"pm.environment.set(\"access_token\", accessToken);\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"roleId object has a property 100\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.roleId).to.equal(100);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"roleName object has a property merchant\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.roleName).to.equal(\"merchant\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{authurl}}?password=test1234&email=merchant@test.com",
+					"host": [
+						"{{authurl}}"
+					],
+					"query": [
+						{
+							"key": "password",
+							"value": "test1234"
+						},
+						{
+							"key": "email",
+							"value": "merchant@test.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Negative Test for Merchant Auth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{authurl}}?password=test1234&email=merchant@test.com",
+					"host": [
+						"{{authurl}}"
+					],
+					"query": [
+						{
+							"key": "password",
+							"value": "test1234"
+						},
+						{
+							"key": "email",
+							"value": "merchant@test.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Job",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"jobId object recieved\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.jobId).to.equal.toString;\r",
+							"    \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"pickupDate\": \"12/12/2021\",\r\n\"pickupTime\": \"12:02 AM\",\r\n\"locationFrom\": [\r\n{\r\n\"address\": {\r\n\"country\": \"Nigeria\",\r\n\"state\": \"Lagos\",\r\n\"city\": \"Ikeja\",\r\n\"closestLandmark\":\"computer village\",\r\n\"address\": \"12 Sobo Arobiodu Street, Ikeja, Nigeria\",\r\n\"zone\": \"Ikeja\",\r\n\"coords\": {\r\n\"lat\": 6.5757504,\r\n\"lng\": 3.3510988\r\n},\r\n\"contactName\": \"ware next\",\r\n\"contactNumber\": \"+2347063560000\"\r\n},\r\n\"products\": [\r\n{\r\n\"type\": \"Documents\",\r\n\"weight\": \"2\",\r\n\"quantity\": 2,\r\n\"description\": \"\"\r\n}\r\n]\r\n}\r\n],\r\n\"locationTo\": [\r\n{\r\n\"address\": {\r\n\"country\": \"Nigeria\",\r\n\"state\": \"Lagos\",\r\n\"city\": \"Lekki\",\r\n\"closestLandmark\":\"The place\",\r\n\"address\": \"20 Layi Yusuf Cresent, Lekki, Nigeria\",\r\n\"zone\": \"VI/Lekki Phase 1/Lagos Island/Ikoyi\",\r\n\"coords\": {\r\n\"lat\": 6.4384494,\r\n\"lng\": 3.4545062\r\n},\r\n\"contactName\": \"ware next\",\r\n\"contactNumber\": \"+2347063560000\"\r\n},\r\n\"products\": [\r\n{\r\n\"type\": \"Documents\",\r\n\"weight\": \"2\",\r\n\"quantity\": 2,\r\n\"description\": \"\"\r\n}\r\n]\r\n}\r\n],\r\n\"details\": {\r\n\"vehicleQuantity\": 1,\r\n\"vehicleType\": \"motorbike\",\r\n\"truckType\": \"\",\r\n\"truckWeight\": \"\",\r\n\"products\": [\r\n{\r\n\"type\": \"Documents\",\r\n\"weight\": \"2\",\r\n\"quantity\": 2,\r\n\"description\": \"\"\r\n}\r\n]\r\n},\r\n\"deliveryPartner\": [\r\n\"VV8Pc8oGkzSobUMVxtQu\"\r\n],\r\n\"paymentInformation\": {\r\n\"method\": \"cash\",\r\n\"status\": \"success\",\r\n\"price\": 6000\r\n}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api-dev.warenext.ng/v1/truckerJob",
+					"protocol": "https",
+					"host": [
+						"api-dev",
+						"warenext",
+						"ng"
+					],
+					"path": [
+						"v1",
+						"truckerJob"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Negative Test for Create Job",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 405 Method Not Allowed\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"pickupDate\": \"12/12/2021\",\r\n\"pickupTime\": \"12:02 AM\",\r\n\"locationFrom\": [\r\n{\r\n\"address\": {\r\n\"country\": \"Nigeria\",\r\n\"state\": \"Lagos\",\r\n\"city\": \"Ikeja\",\r\n\"closestLandmark\":\"computer village\",\r\n\"address\": \"12 Sobo Arobiodu Street, Ikeja, Nigeria\",\r\n\"zone\": \"Ikeja\",\r\n\"coords\": {\r\n\"lat\": 6.5757504,\r\n\"lng\": 3.3510988\r\n},\r\n\"contactName\": \"ware next\",\r\n\"contactNumber\": \"+2347063560000\"\r\n},\r\n\"products\": [\r\n{\r\n\"type\": \"Documents\",\r\n\"weight\": \"2\",\r\n\"quantity\": 2,\r\n\"description\": \"\"\r\n}\r\n]\r\n}\r\n],\r\n\"locationTo\": [\r\n{\r\n\"address\": {\r\n\"country\": \"Nigeria\",\r\n\"state\": \"Lagos\",\r\n\"city\": \"Lekki\",\r\n\"closestLandmark\":\"The place\",\r\n\"address\": \"20 Layi Yusuf Cresent, Lekki, Nigeria\",\r\n\"zone\": \"VI/Lekki Phase 1/Lagos Island/Ikoyi\",\r\n\"coords\": {\r\n\"lat\": 6.4384494,\r\n\"lng\": 3.4545062\r\n},\r\n\"contactName\": \"ware next\",\r\n\"contactNumber\": \"+2347063560000\"\r\n},\r\n\"products\": [\r\n{\r\n\"type\": \"Documents\",\r\n\"weight\": \"2\",\r\n\"quantity\": 2,\r\n\"description\": \"\"\r\n}\r\n]\r\n}\r\n],\r\n\"details\": {\r\n\"vehicleQuantity\": 1,\r\n\"vehicleType\": \"motorbike\",\r\n\"truckType\": \"\",\r\n\"truckWeight\": \"\",\r\n\"products\": [\r\n{\r\n\"type\": \"Documents\",\r\n\"weight\": \"2\",\r\n\"quantity\": 2,\r\n\"description\": \"\"\r\n}\r\n]\r\n},\r\n\"deliveryPartner\": [\r\n\"VV8Pc8oGkzSobUMVxtQu\"\r\n],\r\n\"paymentInformation\": {\r\n\"method\": \"cash\",\r\n\"status\": \"success\",\r\n\"price\": 6000\r\n}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api-dev.warenext.ng/v1/truckerJob",
+					"protocol": "https",
+					"host": [
+						"api-dev",
+						"warenext",
+						"ng"
+					],
+					"path": [
+						"v1",
+						"truckerJob"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "authurl",
+			"value": "https://api-dev.warenext.ng/auth/login"
+		}
+	]
+}
