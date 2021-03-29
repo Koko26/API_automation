@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "0be277cb-9c9d-4dca-8653-e31a335be972",
-		"name": "Warenext Auth",
+		"name": "Warenext",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -116,6 +116,9 @@
 					}
 				}
 			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -197,6 +200,127 @@
 					"path": [
 						"v1",
 						"truckerJob"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Display of Delivery Partners",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Partner Name ClickNShip Delivery Appears\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].partnerName).to.eql(\"ClickNShip Delivery\");\r",
+							"});\r",
+							"pm.test(\"Partner Name businesswork Appears\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[1].partnerName).to.eql(\"businesswork\");\r",
+							"});\r",
+							"pm.test(\"Partner Name VehicleManager\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[2].partnerName).to.eql(\"VehicleManager\");\r",
+							"});\r",
+							"pm.test(\"Partner Name DemoLTD\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[3].partnerName).to.eql(\"DemoLTD\");\r",
+							"});\r",
+							"pm.test(\"Partner Name DHL --EXPRESS DOMESTIC\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[4].partnerName).to.eql(\"DHL --EXPRESS DOMESTIC\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"locationFrom\": [\r\n{\r\n\"country\": \"Nigeria\",\r\n\"state\": \"Lagos\",\r\n\"city\": \"Lagos island\",\r\n\"zone\": \"Agungi/Ajah/Awoyaya\",\r\n\"address\": \"Rensource Energy HQ, Tiamiyu Savage Street, Lagos, Nigeria\",\r\n\"contactName\": \"segun\",\r\n\"contactNumber\": \"+23407042323245\",\r\n\"coords\": {\r\n\"lat\": 6.4269753,\r\n\"lng\": 3.4283304\r\n},\r\n\"products\": [\r\n{\r\n\"type\": \"Industrial Goods\",\r\n\"weight\": \"20\",\r\n\"quantity\": 2,\r\n\"description\": \"\"\r\n}\r\n],\r\n\"closestLandmark\": \"Eko hotel\"\r\n}\r\n],\r\n\"locationTo\": [\r\n{\r\n\"country\": \"Nigeria\",\r\n\"state\": \"Lagos\",\r\n\"city\": \"Ajah\",\r\n\"zone\": \"Agungi/Ajah/Awoyaya\",\r\n\"address\": \"Lekki Phase 1, Lekki, Nigeria\",\r\n\"contactName\": \"segun\",\r\n\"contactNumber\": \"+23407042323245\",\r\n\"coords\": {\r\n\"lat\": 6.447809299999999,\r\n\"lng\": 3.4723495\r\n},\r\n\"products\": [\r\n{\r\n\"type\": \"Industrial Goods\",\r\n\"weight\": \"20\",\r\n\"quantity\": 2,\r\n\"description\": \"\"\r\n}\r\n],\r\n\"closestLandmark\": \"\"\r\n}\r\n],\r\n\"details\": {\r\n\"vehicleQuantity\": 1,\r\n\"vehicleType\": \"car\",\r\n\"truckType\": \"flatbedTruck\",\r\n\"truckWeight\": \"5TonneTruck\",\r\n\"products\": [\r\n{\r\n\"type\": \"Documents\",\r\n\"weight\": \"2\",\r\n\"quantity\": 2,\r\n\"description\": \"\"\r\n}\r\n]\r\n}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseurl}}getShipmentPricing?password=test1234&email=demo@merchant.com",
+					"host": [
+						"{{baseurl}}getShipmentPricing"
+					],
+					"query": [
+						{
+							"key": "password",
+							"value": "test1234"
+						},
+						{
+							"key": "email",
+							"value": "demo@merchant.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Negative Test for Display of Delivery Partners",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"locationFrom\": [\r\n{\r\n\"country\": \"Nigeria\",\r\n\"state\": \"Lagos\",\r\n\"city\": \"Lagos island\",\r\n\"zone\": \"Agungi/Ajah/Awoyaya\",\r\n\"address\": \"Rensource Energy HQ, Tiamiyu Savage Street, Lagos, Nigeria\",\r\n\"contactName\": ,\r\n\"contactNumber\": \"+23407042323245\",\r\n\"coords\": {\r\n\"lat\": 6.4269753,\r\n\"lng\": 3.4283304\r\n},\r\n\"products\": [\r\n{\r\n\"type\": ,\r\n\"weight\": \"20\",\r\n\"quantity\": 2,\r\n\"description\": \"\"\r\n}\r\n],\r\n\"closestLandmark\": \"Eko hotel\"\r\n}\r\n],\r\n\"locationTo\": [\r\n{\r\n\"country\": \"Nigeria\",\r\n\"state\": \"Lagos\",\r\n\"city\": \"Ajah\",\r\n\"zone\": \"Agungi/Ajah/Awoyaya\",\r\n\"address\": \"Lekki Phase 1, Lekki, Nigeria\",\r\n\"contactName\": \"segun\",\r\n\"contactNumber\": \"+23407042323245\",\r\n\"coords\": {\r\n\"lat\": 6.447809299999999,\r\n\"lng\": 3.4723495\r\n},\r\n\"products\": [\r\n{\r\n\"type\": \"Industrial Goods\",\r\n\"weight\": \"20\",\r\n\"quantity\": 2,\r\n\"description\": \"\"\r\n}\r\n],\r\n\"closestLandmark\": \"\"\r\n}\r\n],\r\n\"details\": {\r\n\"vehicleQuantity\": 1,\r\n\"vehicleType\": \"car\",\r\n\"truckType\": \"flatbedTruck\",\r\n\"truckWeight\": \"5TonneTruck\",\r\n\"products\": [\r\n{\r\n\"type\": \"Documents\",\r\n\"weight\": \"2\",\r\n\"quantity\": 2,\r\n\"description\": \"\"\r\n}\r\n]\r\n}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseurl}}getShipmentPricing?password=test1234&email=demo@merchant.com",
+					"host": [
+						"{{baseurl}}getShipmentPricing"
+					],
+					"query": [
+						{
+							"key": "password",
+							"value": "test1234"
+						},
+						{
+							"key": "email",
+							"value": "demo@merchant.com"
+						}
 					]
 				}
 			},
