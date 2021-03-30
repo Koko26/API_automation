@@ -325,6 +325,137 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Vehicle Manager Authorization",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var rBody = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"vehicleToken\",rBody.accessToken);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}auth/login?password=test1234&email=vehiclemanager@warenext.com",
+					"host": [
+						"{{baseurl}}auth"
+					],
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "password",
+							"value": "test1234"
+						},
+						{
+							"key": "email",
+							"value": "vehiclemanager@warenext.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Driver",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{vehicleToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\":\"johnn\",\r\n\"email\":\"effiwattotu@gmail.com\",\r\n\"telephone\":\"09020772796\",\r\n\"licenseNumber\":\"KT419000P4\",\r\n\"image\":\"base 64 string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseurl}}driver?password=test1234&username=vehiclemanager@warenext.com",
+					"host": [
+						"{{baseurl}}driver"
+					],
+					"query": [
+						{
+							"key": "password",
+							"value": "test1234"
+						},
+						{
+							"key": "username",
+							"value": "vehiclemanager@warenext.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Negative Test Case for Create Driver",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\":\"johnn\",\r\n\"email\":\"wattotu@gmail.com\",\r\n\"telephone\":\"09020778996\",\r\n\"licenseNumber\":\"KT419012P4\",\r\n\"image\":\"base 64 string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseurl}}driver?password=test1234&username=vehiclemanager@warenext.com",
+					"host": [
+						"{{baseurl}}driver"
+					],
+					"query": [
+						{
+							"key": "password",
+							"value": "test1234"
+						},
+						{
+							"key": "username",
+							"value": "vehiclemanager@warenext.com"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"variable": [
