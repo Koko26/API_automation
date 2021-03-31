@@ -395,7 +395,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"name\":\"johnn\",\r\n\"email\":\"effiwattotu@gmail.com\",\r\n\"telephone\":\"09020772796\",\r\n\"licenseNumber\":\"KT419000P4\",\r\n\"image\":\"base 64 string\"\r\n}",
+					"raw": "{\r\n\"name\":\"johnn\",\r\n\"email\":\"attotu@gmail.com\",\r\n\"telephone\":\"09020778896\",\r\n\"licenseNumber\":\"KT419092P4\",\r\n\"image\":\"base 64 string\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -464,6 +464,213 @@
 						{
 							"key": "username",
 							"value": "vehiclemanager@warenext.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ware House Auth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var warenext = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"warehouseToken\", warenext.accessToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api-dev.warenext.ng/auth/login?password=test1234&email=demo@warehouse.com",
+					"protocol": "https",
+					"host": [
+						"api-dev",
+						"warenext",
+						"ng"
+					],
+					"path": [
+						"auth",
+						"login"
+					],
+					"query": [
+						{
+							"key": "password",
+							"value": "test1234"
+						},
+						{
+							"key": "email",
+							"value": "demo@warehouse.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create A Warehouse",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Unique warehouseId is Generated\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.warehouseId).to.eql.toString;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{warehouseToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"warehouseName\":\"ottu warehouse\",\"location\":{\"country\":\"NG\",\"state\":\"Lagos\",\"city\":\"Ikeja\",\"number\":\"42\",\"address\":\"Oduduwa Crescent\",\"lat\":6.5729752,\"lng\":3.3533687},\"properties\":{\"zones\":4,\"sections\":8},\"goodTypes\":[\"stationery\",\"bulk_and_packaged_goods\",\"dry_and_liquid_goods\",\"cosmetics_products\"],\"services\":[\"outBoundTransport\",\"inBoundTransport\",\"boxStorage\",\"palletStorage\"],\"images\":{\"upload\":[{\"file\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAAAklEQVR4AewaftIAAAKnSURBVO3Bia0lRgEEwJ7W5J8JIZAASYEEAsl4G9brf7yjqs7f/vLXvwf4oQaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYbk54Eyf8UTc8pRO+wg1f7oRnccOHOeHV3PA7J/AvN2/mBH7ezQs4gc9x8wRO4HvckxPgxxpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmG5O4DdO+Lcb3tIJP+OGl3fCr7rhZZzw0W54Wid8thse3gnf5YaHc8KjuOFbnfDIbvhSJzyTGz7NCc/uhg9zwqu54Zed8Opu+GknvJsbphPe3Q3/cQK/dfPGTuB/u3kzJ/Dzbt7ACfyamxd1An/ezYs4gY9388RO4HPdPJkT+Do3T+AEvsfNAzuB73XzYE7gcdyTE+DHGmBqgKkBpgaYGmBqgKkBpgaYbk7gn074bze8rRP+nxveygl/xA0v7YQ/44aXc8JHueElnPAZbnhaJ3y2G57KCV/phod3wne54SGd8AhueBgnPJobvtUJj+yGL3fCs7jhy5zwbG74VCc8sxs+3AmvouFDnfBKGj7MCa+mAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaZ/AIToBWNS+TahAAAAAElFTkSuQmCC\",\"isMainImage\":true}]},\"pricing\":{\"currency\":\"ngn\",\"service\":\"palletStorage\",\"exactPrice\":4000,\"handlingFees\":{\"inbound\":998,\"outbound\":2000}}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseurl}}warehouse?password=test1234&email=demo@warehouse.com",
+					"host": [
+						"{{baseurl}}warehouse"
+					],
+					"query": [
+						{
+							"key": "password",
+							"value": "test1234"
+						},
+						{
+							"key": "email",
+							"value": "demo@warehouse.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Negative test case for Create a Warehouse (Methods other than PUT should not be allowed)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{warehouseToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"warehouseName\":\"ottu warehouse\",\"location\":{\"country\":\"NG\",\"state\":\"Lagos\",\"city\":\"Ikeja\",\"number\":\"42\",\"address\":\"Oduduwa Crescent\",\"lat\":6.5729752,\"lng\":3.3533687},\"properties\":{\"zones\":4,\"sections\":8},\"goodTypes\":[\"stationery\",\"bulk_and_packaged_goods\",\"dry_and_liquid_goods\",\"cosmetics_products\"],\"services\":[\"outBoundTransport\",\"inBoundTransport\",\"boxStorage\",\"palletStorage\"],\"images\":{\"upload\":[{\"file\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAAAklEQVR4AewaftIAAAKnSURBVO3Bia0lRgEEwJ7W5J8JIZAASYEEAsl4G9brf7yjqs7f/vLXvwf4oQaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYbk54Eyf8UTc8pRO+wg1f7oRnccOHOeHV3PA7J/AvN2/mBH7ezQs4gc9x8wRO4HvckxPgxxpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmG5O4DdO+Lcb3tIJP+OGl3fCr7rhZZzw0W54Wid8thse3gnf5YaHc8KjuOFbnfDIbvhSJzyTGz7NCc/uhg9zwqu54Zed8Opu+GknvJsbphPe3Q3/cQK/dfPGTuB/u3kzJ/Dzbt7ACfyamxd1An/ezYs4gY9388RO4HPdPJkT+Do3T+AEvsfNAzuB73XzYE7gcdyTE+DHGmBqgKkBpgaYGmBqgKkBpgaYbk7gn074bze8rRP+nxveygl/xA0v7YQ/44aXc8JHueElnPAZbnhaJ3y2G57KCV/phod3wne54SGd8AhueBgnPJobvtUJj+yGL3fCs7jhy5zwbG74VCc8sxs+3AmvouFDnfBKGj7MCa+mAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaZ/AIToBWNS+TahAAAAAElFTkSuQmCC\",\"isMainImage\":true}]},\"pricing\":{\"currency\":\"ngn\",\"service\":\"palletStorage\",\"exactPrice\":4000,\"handlingFees\":{\"inbound\":998,\"outbound\":2000}}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseurl}}warehouse?password=test1234&email=demo@warehouse.com",
+					"host": [
+						"{{baseurl}}warehouse"
+					],
+					"query": [
+						{
+							"key": "password",
+							"value": "test1234"
+						},
+						{
+							"key": "email",
+							"value": "demo@warehouse.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Negative test case for create ware house (omitted parameters)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{warehouseToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"location\":{\"country\":\"NG\",\"state\":\"Lagos\",\"city\":\"Ikeja\",\"number\":\"42\",\"address\":\"Oduduwa Crescent\",\"lat\":6.5729752,\"lng\":3.3533687},\"properties\":{\"zones\":4,\"sections\":8},\"goodTypes\":[\"stationery\",\"bulk_and_packaged_goods\",\"dry_and_liquid_goods\",\"cosmetics_products\"],\"services\":[\"outBoundTransport\",\"inBoundTransport\",\"boxStorage\",\"palletStorage\"],\"images\":{\"upload\":[{\"file\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAAAklEQVR4AewaftIAAAKnSURBVO3Bia0lRgEEwJ7W5J8JIZAASYEEAsl4G9brf7yjqs7f/vLXvwf4oQaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYGmBqgKkBpgaYbk54Eyf8UTc8pRO+wg1f7oRnccOHOeHV3PA7J/AvN2/mBH7ezQs4gc9x8wRO4HvckxPgxxpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmG5O4DdO+Lcb3tIJP+OGl3fCr7rhZZzw0W54Wid8thse3gnf5YaHc8KjuOFbnfDIbvhSJzyTGz7NCc/uhg9zwqu54Zed8Opu+GknvJsbphPe3Q3/cQK/dfPGTuB/u3kzJ/Dzbt7ACfyamxd1An/ezYs4gY9388RO4HPdPJkT+Do3T+AEvsfNAzuB73XzYE7gcdyTE+DHGmBqgKkBpgaYGmBqgKkBpgaYbk7gn074bze8rRP+nxveygl/xA0v7YQ/44aXc8JHueElnPAZbnhaJ3y2G57KCV/phod3wne54SGd8AhueBgnPJobvtUJj+yGL3fCs7jhy5zwbG74VCc8sxs+3AmvouFDnfBKGj7MCa+mAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaYGmBpgaoCpAaZ/AIToBWNS+TahAAAAAElFTkSuQmCC\",\"isMainImage\":true}]},\"pricing\":{\"currency\":\"ngn\",\"service\":\"palletStorage\",\"exactPrice\":4000,\"handlingFees\":{\"inbound\":998,\"outbound\":2000}}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseurl}}warehouse?password=test1234&email=demo@warehouse.com",
+					"host": [
+						"{{baseurl}}warehouse"
+					],
+					"query": [
+						{
+							"key": "password",
+							"value": "test1234"
+						},
+						{
+							"key": "email",
+							"value": "demo@warehouse.com"
 						}
 					]
 				}
