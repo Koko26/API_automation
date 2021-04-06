@@ -108,7 +108,7 @@
 							"\r",
 							"pm.test(\"jobId object recieved\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.jobId).to.equal.toString;\r",
+							"    pm.expect(jsonData.jobId).to.not.equal(null);\r",
 							"    \r",
 							"});"
 						],
@@ -526,7 +526,7 @@
 							"\r",
 							"pm.test(\"Unique warehouseId is Generated\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.warehouseId).to.eql.toString;\r",
+							"    pm.expect(jsonData.warehouseId).to.not.eql(null);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -672,6 +672,146 @@
 							"key": "email",
 							"value": "demo@warehouse.com"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Draft",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"jobId is displayed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.jobId).to.not.eql(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"pickupDate\": \"12/12/2021\",\r\n    \"pickupTime\": \"12:02 AM\",\r\n    \"locationFrom\": [\r\n        {\r\n            \"address\": {\r\n                \"country\": \"Nigeria\",\r\n                \"state\": \"Lagos\",\r\n                \"city\": \"Ikeja\",\r\n                \"closestLandmark\":\"computer village\",\r\n                \"address\": \"12 Sobo Arobiodu Street, Ikeja, Nigeria\",\r\n                \"zone\": \"Ikeja\",\r\n                \"coords\": {\r\n                \"lat\": 6.5757504,\r\n                \"lng\": 3.3510988\r\n                },\r\n                \"contactName\": \"ware next\",\r\n                \"contactNumber\": \"+2347063560000\"\r\n            },\r\n            \"products\": [\r\n                {\r\n                \"type\": \"Documents\",\r\n                \"weight\": \"2\",\r\n                \"quantity\": 2,\r\n                \"description\": \"\"\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n    \"locationTo\": [\r\n        {\r\n            \"address\": {\r\n                \"country\": \"Nigeria\",\r\n                \"state\": \"Lagos\",\r\n                \"city\": \"Lekki\",\r\n                \"closestLandmark\":\"The place\",\r\n                \"address\": \"20 Layi Yusuf Cresent, Lekki, Nigeria\",\r\n                \"zone\": \"VI/Lekki Phase 1/Lagos Island/Ikoyi\",\r\n                \"coords\": {\r\n                \"lat\": 6.4384494,\r\n                \"lng\": 3.4545062\r\n                },\r\n                \"contactName\": \"ware next\",\r\n                \"contactNumber\": \"+2347063560000\"\r\n            },\r\n            \"products\": [\r\n                {\r\n                \"type\": \"Documents\",\r\n                \"weight\": \"2\",\r\n                \"quantity\": 2,\r\n                \"description\": \"\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"address\": {\r\n                \"country\": \"Nigeria\",\r\n                \"state\": \"Lagos\",\r\n                \"city\": \"Lekki\",\r\n                \"closestLandmark\":\"The place\",\r\n                \"address\": \"20 Layi Yusuf Cresent, Lekki, Nigeria\",\r\n                \"zone\": \"VI/Lekki Phase 1/Lagos Island/Ikoyi\",\r\n                \"coords\": {\r\n                \"lat\": 6.4384494,\r\n                \"lng\": 3.4545062\r\n                },\r\n                \"contactName\": \"ware next\",\r\n                \"contactNumber\": \"+2347063560000\"\r\n            },\r\n            \"products\": [\r\n                {\r\n                \"type\": \"Documents\",\r\n                \"weight\": \"2\",\r\n                \"quantity\": 2,\r\n                \"description\": \"\"\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n    \"details\": {\r\n        \"vehicleQuantity\": 1,\r\n        \"vehicleType\": \"motorbike\",\r\n        \"truckType\": \"\",\r\n        \"truckWeight\": \"\",\r\n        \"products\": [\r\n            {\r\n                \"type\": \"Documents\",\r\n                \"weight\": \"2\",\r\n                \"quantity\": 2,\r\n                \"description\": \"\"\r\n            }\r\n        ]\r\n    },\r\n    \"deliveryPartner\": [\r\n        \"xZivkwgfKAamCXTb3C9m\"\r\n    ],\r\n    \"paymentInformation\": {\r\n        \"method\": \"cash\",\r\n        \"status\": \"success\",\r\n        \"price\": 6000\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseurl}}truckerJob/draft",
+					"host": [
+						"{{baseurl}}truckerJob"
+					],
+					"path": [
+						"draft"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Negative test case for Create draft using other methods",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"pickupDate\": \"12/12/2021\",\r\n    \"pickupTime\": \"12:02 AM\",\r\n    \"locationFrom\": [\r\n        {\r\n            \"address\": {\r\n                \"country\": \"Nigeria\",\r\n                \"state\": \"Lagos\",\r\n                \"city\": \"Ikeja\",\r\n                \"closestLandmark\":\"computer village\",\r\n                \"address\": \"12 Sobo Arobiodu Street, Ikeja, Nigeria\",\r\n                \"zone\": \"Ikeja\",\r\n                \"coords\": {\r\n                \"lat\": 6.5757504,\r\n                \"lng\": 3.3510988\r\n                },\r\n                \"contactName\": \"ware next\",\r\n                \"contactNumber\": \"+2347063560000\"\r\n            },\r\n            \"products\": [\r\n                {\r\n                \"type\": \"Documents\",\r\n                \"weight\": \"2\",\r\n                \"quantity\": 2,\r\n                \"description\": \"\"\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n    \"locationTo\": [\r\n        {\r\n            \"address\": {\r\n                \"country\": \"Nigeria\",\r\n                \"state\": \"Lagos\",\r\n                \"city\": \"Lekki\",\r\n                \"closestLandmark\":\"The place\",\r\n                \"address\": \"20 Layi Yusuf Cresent, Lekki, Nigeria\",\r\n                \"zone\": \"VI/Lekki Phase 1/Lagos Island/Ikoyi\",\r\n                \"coords\": {\r\n                \"lat\": 6.4384494,\r\n                \"lng\": 3.4545062\r\n                },\r\n                \"contactName\": \"ware next\",\r\n                \"contactNumber\": \"+2347063560000\"\r\n            },\r\n            \"products\": [\r\n                {\r\n                \"type\": \"Documents\",\r\n                \"weight\": \"2\",\r\n                \"quantity\": 2,\r\n                \"description\": \"\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"address\": {\r\n                \"country\": \"Nigeria\",\r\n                \"state\": \"Lagos\",\r\n                \"city\": \"Lekki\",\r\n                \"closestLandmark\":\"The place\",\r\n                \"address\": \"20 Layi Yusuf Cresent, Lekki, Nigeria\",\r\n                \"zone\": \"VI/Lekki Phase 1/Lagos Island/Ikoyi\",\r\n                \"coords\": {\r\n                \"lat\": 6.4384494,\r\n                \"lng\": 3.4545062\r\n                },\r\n                \"contactName\": \"ware next\",\r\n                \"contactNumber\": \"+2347063560000\"\r\n            },\r\n            \"products\": [\r\n                {\r\n                \"type\": \"Documents\",\r\n                \"weight\": \"2\",\r\n                \"quantity\": 2,\r\n                \"description\": \"\"\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n    \"details\": {\r\n        \"vehicleQuantity\": 1,\r\n        \"vehicleType\": \"motorbike\",\r\n        \"truckType\": \"\",\r\n        \"truckWeight\": \"\",\r\n        \"products\": [\r\n            {\r\n                \"type\": \"Documents\",\r\n                \"weight\": \"2\",\r\n                \"quantity\": 2,\r\n                \"description\": \"\"\r\n            }\r\n        ]\r\n    },\r\n    \"deliveryPartner\": [\r\n        \"xZivkwgfKAamCXTb3C9m\"\r\n    ],\r\n    \"paymentInformation\": {\r\n        \"method\": \"cash\",\r\n        \"status\": \"success\",\r\n        \"price\": 6000\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseurl}}truckerJob/draft",
+					"host": [
+						"{{baseurl}}truckerJob"
+					],
+					"path": [
+						"draft"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Negative Test case for create draft - Omiting objects",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"pickupDate\": \"12/12/2021\",\r\n    \"pickupTime\": \"12:02 AM\",\r\n     \r\n        {\r\n            \"address\": {\r\n                \"country\": \"Nigeria\",\r\n                \"state\": \"Lagos\",\r\n                \"city\": \"Ikeja\",\r\n                \"closestLandmark\":\"computer village\",\r\n                \"address\": \"12 Sobo Arobiodu Street, Ikeja, Nigeria\",\r\n                \"zone\": \"Ikeja\",\r\n                \"coords\": {\r\n                \"lat\": 6.5757504,\r\n                \"lng\": 3.3510988\r\n                },\r\n                \"contactName\": \"ware next\",\r\n                \"contactNumber\": \"+2347063560000\"\r\n            },\r\n            \"products\": [\r\n                {\r\n                \"type\": \"Documents\",\r\n                \"weight\": \"2\",\r\n                \"quantity\": 2,\r\n                \"description\": \"\"\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n    \"locationTo\": [\r\n        {\r\n            \"address\": {\r\n                \"country\": \"Nigeria\",\r\n                \"state\": \"Lagos\",\r\n                \"city\": \"Lekki\",\r\n                \"closestLandmark\":\"The place\",\r\n                \"address\": \"20 Layi Yusuf Cresent, Lekki, Nigeria\",\r\n                \"zone\": \"VI/Lekki Phase 1/Lagos Island/Ikoyi\",\r\n                \"coords\": {\r\n                \"lat\": 6.4384494,\r\n                \"lng\": 3.4545062\r\n                },\r\n                \"contactName\": \"ware next\",\r\n                \"contactNumber\": \"+2347063560000\"\r\n            },\r\n            \"products\": [\r\n                {\r\n                \"type\": \"Documents\",\r\n                \"weight\": \"2\",\r\n                \"quantity\": 2,\r\n                \"description\": \"\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"address\": {\r\n                \"country\": \"Nigeria\",\r\n                \"state\": \"Lagos\",\r\n                \"city\": \"Lekki\",\r\n                \"closestLandmark\":\"The place\",\r\n                \"address\": \"20 Layi Yusuf Cresent, Lekki, Nigeria\",\r\n                \"zone\": \"VI/Lekki Phase 1/Lagos Island/Ikoyi\",\r\n                \"coords\": {\r\n                \"lat\": 6.4384494,\r\n                \"lng\": 3.4545062\r\n                },\r\n                \"contactName\": \"ware next\",\r\n                \"contactNumber\": \"+2347063560000\"\r\n            },\r\n            \"products\": [\r\n                {\r\n                \"type\": \"Documents\",\r\n                \"weight\": \"2\",\r\n                \"quantity\": 2,\r\n                \"description\": \"\"\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n    \"details\": {\r\n        \"vehicleQuantity\": 1,\r\n        \"vehicleType\": \"motorbike\",\r\n        \"truckType\": \"\",\r\n        \"truckWeight\": \"\",\r\n        \"products\": [\r\n            {\r\n                \"type\": \"Documents\",\r\n                \"weight\": \"2\",\r\n                \"quantity\": 2,\r\n                \"description\": \"\"\r\n            }\r\n        ]\r\n    },\r\n    \"deliveryPartner\": [\r\n        \"xZivkwgfKAamCXTb3C9m\"\r\n    ],\r\n    \"paymentInformation\": {\r\n        \"method\": \"cash\",\r\n        \"status\": \"success\",\r\n        \"price\": 6000\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseurl}}truckerJob/draft",
+					"host": [
+						"{{baseurl}}truckerJob"
+					],
+					"path": [
+						"draft"
 					]
 				}
 			},
