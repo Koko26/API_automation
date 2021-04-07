@@ -816,6 +816,94 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "List Drafts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"jobId displayed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].jobId).to.not.eql(null);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"userId displayed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].userId).to.not.eql(null);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Location from displayed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].locationFrom).to.not.eql(null);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Location to displayed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].locationTo).to.not.eql(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseurl}}truckerJobs/drafts",
+					"host": [
+						"{{baseurl}}truckerJobs"
+					],
+					"path": [
+						"drafts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Negative test for list drafts using other request method",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseurl}}truckerJobs/drafts",
+					"host": [
+						"{{baseurl}}truckerJobs"
+					],
+					"path": [
+						"drafts"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"variable": [
