@@ -15,7 +15,7 @@
 							"var warenext = JSON.parse(responseBody);\r",
 							"\r",
 							"var accessToken = warenext.accessToken\r",
-							"pm.environment.set(\"access_token\", accessToken);\r",
+							"pm.environment.set(\"merchantToken\", accessToken);\r",
 							"\r",
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
@@ -108,7 +108,7 @@
 							"\r",
 							"pm.test(\"jobId object recieved\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.jobId).to.not.equal(null);\r",
+							"    pm.expect(jsonData.jobId).to.not.include(null);\r",
 							"    \r",
 							"});"
 						],
@@ -124,7 +124,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{access_token}}",
+						"value": "{{merchantToken}}",
 						"type": "text"
 					}
 				],
@@ -176,7 +176,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{access_token}}",
+						"value": "{{merchantToken}}",
 						"type": "text"
 					}
 				],
@@ -242,7 +242,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{access_token}}",
+						"value": "{{merchantToken}}",
 						"type": "text"
 					}
 				],
@@ -294,7 +294,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{access_token}}",
+						"value": "{{merchantToken}}",
 						"type": "text"
 					}
 				],
@@ -699,7 +699,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{access_token}}",
+						"value": "{{merchantToken}}",
 						"type": "text"
 					}
 				],
@@ -744,7 +744,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{access_token}}",
+						"value": "{{merchantToken}}",
 						"type": "text"
 					}
 				],
@@ -789,7 +789,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{access_token}}",
+						"value": "{{merchantToken}}",
 						"type": "text"
 					}
 				],
@@ -850,7 +850,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{access_token}}",
+						"value": "{{merchantToken}}",
 						"type": "text"
 					}
 				],
@@ -886,7 +886,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{access_token}}",
+						"value": "{{merchantToken}}",
 						"type": "text"
 					}
 				],
